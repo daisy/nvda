@@ -7,6 +7,7 @@
 # Takuya Nishimoto, jakubl7545, Tony Malykh, Rob Meredith,
 # Burman's Computer and Education Ltd, hwf1324, Cary-rowen, Christopher Proß, Tianze
 # Neil Soiffer, Ryan McCleary, Wang Chong, Kefas Lungu.
+# DAISY Consortium, Noelia Ruiz Martínez.
 # This file may be used under the terms of the GNU General Public License, version 2 or later, as modified by the NVDA license.
 # For full terms and any additional permissions, see the NVDA license file: https://github.com/nvaccess/nvda/blob/master/copying.txt
 
@@ -80,6 +81,7 @@ from config.configFlags import (
 	TypingEcho,
 	LoggingLevel,
 	BrailleMode,
+	DpubRolesLevel,
 )
 from logHandler import log
 from synthDriverHandler import SynthDriver, changeVoice, getSynth, getSynthList, setSynth
@@ -3523,6 +3525,21 @@ class DocumentFormattingPanel(SettingsPanel):
 		self.clickableCheckBox = elementsGroup.addItem(wx.CheckBox(elementsGroupBox, label=_("&Clickable")))
 		self.clickableCheckBox.Value = config.conf["documentFormatting"]["reportClickable"]
 
+		dpubRolesChoices = [i.displayString for i in DpubRolesLevel]
+		self.dpubRolesLevelCombo = sHelper.addLabeledControl(
+			# Translators: This is the label for a combobox controlling the reporting of dpub roles in the document formatting settings panel.
+			# Possible choices are None, Some, Most, or All.
+			_("Dpub roles reporting:"),
+			wx.Choice,
+			choices=dpubRolesChoices,
+		)
+		self.bindHelpEvent(
+			"DocumentFormattingDpubRolesLevel",
+			self.dpubRolesLevelCombo,
+		)
+		reportDpubRoles = config.conf["documentFormatting"]["reportDpubRoles"]
+		self.dpubRolesLevelCombo.SetSelection(reportDpubRoles)
+
 		# Translators: This is the label for a checkbox in the
 		# document formatting settings panel.
 		detectFormatAfterCursorText = _("Report formatting chan&ges after the cursor (can cause a lag)")
@@ -3595,6 +3612,7 @@ class DocumentFormattingPanel(SettingsPanel):
 		config.conf["documentFormatting"]["reportFrames"] = self.framesCheckBox.Value
 		config.conf["documentFormatting"]["reportFigures"] = self.figuresCheckBox.Value
 		config.conf["documentFormatting"]["reportClickable"] = self.clickableCheckBox.Value
+		config.conf["documentFormatting"]["reportDpubRoles"] = self.dpubRolesLevelCombo.GetSelection()
 
 
 class DocumentNavigationPanel(SettingsPanel):

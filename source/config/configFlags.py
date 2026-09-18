@@ -468,3 +468,30 @@ class PlayErrorSound(DisplayStringIntEnum):
 			# Translators: Label for a value in the Play a sound for logged errors combobox, in the Advanced settings.
 			PlayErrorSound.NO: pgettext("advanced.playErrorSound", "No"),
 		}
+
+
+@unique
+class DpubRolesLevel(DisplayStringIntEnum):
+	"""Enumeration containing the possible config values for levels of Dpub roles.
+
+	Use DpubRolesLevel.MEMBER.value to compare with the config;
+	use DpubRolesLevel.MEMBER.displayString in the UI for a translatable description of this member.
+	"""
+
+	NONE = 0
+	SOME = 1
+	MOST = 2
+	ALL = 3
+
+	@property
+	def _displayStringLabels(self):
+		return {
+			# Translators: One of the choices for Dpub roles levels in document settings
+			DpubRolesLevel.NONE: _("None"),
+			# Translators: One of the choices for Dpub roles levels in document settings
+			DpubRolesLevel.SOME: _("Some"),
+			# Translators: One of the choices for Dpub roles levels in document settings
+			DpubRolesLevel.MOST: _("Most"),
+			# Translators: One of the choices for Dpub roles levels in document settings
+			DpubRolesLevel.ALL: _("All"),
+		}

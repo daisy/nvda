@@ -285,6 +285,8 @@ schemaVersion = integer(min=0, default={latestSchemaVersion})
 	reportFrames = boolean(default=true)
 	reportFigures = boolean(default=true)
 	reportClickable = boolean(default=true)
+		# 0: None, 1: Some, 2: Most, 3: All
+	reportDpubRoles = integer(default=1,min=0,max=3)
 
 [documentNavigation]
 	# Hidden option to eagerly initialize Chinese word segmentation even when the current languages do not use it.

@@ -24,6 +24,7 @@ from comInterfaces.IAccessible2Lib import IAccessibleTextSelectionContainer, IA2
 from comtypes import COMError
 from comtypes.hresult import E_INVALIDARG
 import aria
+from dpubRoles import dpubRoles
 import config
 from NVDAObjects.IAccessible import normalizeIA2TextFormatField, IA2TextTextInfo
 import documentBase
@@ -160,8 +161,6 @@ class Gecko_ia2_TextInfo(VirtualBufferTextInfo):
 		elif sorted == "other":
 			states.add(controlTypes.State.SORTED)
 		roleText = attrs.get("IAccessible2::attribute_roledescription")
-		if roleText:
-			attrs["roleText"] = roleText
 		roleTextBraille = attrs.get("IAccessible2::attribute_brailleroledescription")
 		if roleTextBraille:
 			attrs["roleTextBraille"] = roleTextBraille
@@ -177,6 +176,13 @@ class Gecko_ia2_TextInfo(VirtualBufferTextInfo):
 				states.add(linkType)
 		level = attrs.get("IAccessible2::attribute_level", "")
 		xmlRoles = attrs.get("IAccessible2::attribute_xml-roles", "").split(" ")
+		dpubRole = next((dpubRoles.get(xmlRole) for xmlRole in xmlRoles if xmlRole in dpubRoles), None)
+		if dpubRole:
+			dpubRoleLevel = config.conf["documentFormatting"]["reportDpubRoles"]
+			if dpubRoleLevel >= dpubRole.priority:
+				roleText = f"{dpubRole.output} {roleText}" if roleText else dpubRole.output
+		if roleText:
+			attrs["roleText"] = roleText
 		landmark = next((xr for xr in xmlRoles if xr in aria.landmarkRoles), None)
 		if landmark and role != controlTypes.Role.LANDMARK and landmark != xmlRoles[0]:
 			# Ignore the landmark role
