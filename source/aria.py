@@ -92,7 +92,7 @@ landmarkRoles: dict[str, str] = {
 }
 
 landmarkRoles.update(
-	{dpubRole.name: dpubRole.output for dpubRole in dpubRoles.values() if dpubRole.landmark},
+	{dpubRole.name: "" for dpubRole in dpubRoles.values() if dpubRole.landmark},
 )
 
 ariaRolesToNVDARoles.update(
