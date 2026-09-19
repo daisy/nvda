@@ -5,6 +5,7 @@
 
 from enum import Enum  # noqa: I001
 import controlTypes
+from dpubRoles import dpubRoles
 
 
 ariaRolesToNVDARoles: dict[str, controlTypes.Role] = {
@@ -89,6 +90,10 @@ landmarkRoles: dict[str, str] = {
 	# Translators: Reported for the form landmark, normally found on web pages.
 	"form": pgettext("aria", "form"),
 }
+
+landmarkRoles.update(
+	{dpubRole.name: dpubRole.output for dpubRole in dpubRoles.values() if dpubRole.landmark},
+)
 
 ariaRolesToNVDARoles.update(
 	{role: controlTypes.Role.LANDMARK for role in landmarkRoles if role not in ariaRolesToNVDARoles},

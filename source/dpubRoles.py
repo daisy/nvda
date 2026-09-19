@@ -13,6 +13,7 @@ class DpubRole:
 	name: str
 	output: str
 	priority: DpubRolesLevel
+	landmark: bool = True
 
 	def __str__(self):
 		return f"{self.name} ({self.output}, priority {self.priority})"
