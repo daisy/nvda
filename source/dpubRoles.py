@@ -149,10 +149,10 @@ dpubRoles: dict[str, DpubRole] = {
 		priority=DpubRolesLevel.ALL,
 		landmark=True,
 	),
-	"doc-examples": DpubRole(
-		name="doc-examples",
-		# Translators: The output for a dpub role, used to identify the examples section of a document.
-		output=pgettext("aria", "examples"),
+	"doc-example": DpubRole(
+		name="doc-example",
+		# Translators: The output for a dpub role, used to identify an example in a document.
+		output=pgettext("aria", "example"),
 		priority=DpubRolesLevel.MOST,
 		landmark=False,
 	),
