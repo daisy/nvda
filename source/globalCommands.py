@@ -48,6 +48,7 @@ from config.configFlags import (
 	OutputMode,
 	TypingEcho,
 	ReportSpellingErrors,
+	DpubRolesLevel,
 )
 from config.featureFlag import FeatureFlag
 from config.featureFlagEnums import BoolFlag
@@ -1305,6 +1306,22 @@ class GlobalCommands(ScriptableObject):
 			state = _("report figures and captions on")
 			config.conf["documentFormatting"]["reportFigures"] = True
 		ui.message(state)
+
+	@script(
+		# Translators: Input help mode message for toggle report line indentation command.
+		description=_("Cycles through dpubRoles settings"),
+		category=SCRCAT_DOCUMENTFORMATTING,
+	)
+	def script_toggleReportDpubRoles(self, gesture: inputCore.InputGesture):
+		dpubRolesLevel = DpubRolesLevel
+		numVals = len(dpubRolesLevel)
+		state = dpubRolesLevel(
+			(config.conf.getConfigValue("documentFormatting", "reportDpubRoles") + 1) % numVals,
+		)
+		config.conf.setConfigValue(state.value, "documentFormatting", "reportDpubRoles")
+		# Translators: A message reported when cycling through dpub roles settings.
+		# {mode} will be replaced with the mode; i.e. None, Most, Some or All.
+		ui.message(_("Report dpub roles {mode}").format(mode=state.displayString))
 
 	@script(
 		description=_(
