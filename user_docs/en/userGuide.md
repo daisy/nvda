@@ -1228,7 +1228,7 @@ Currently, Native Selection Mode is supported in:
 * Chrome, Edge, and any browser based on Chromium 134 or newer
 * Microsoft Word and Outlook, where it cannot be toggled off
 
-Native Selection Mode can also be [turned on automatically](#BrowseModeSettingsNativeSelectionMode) in supporting documents via NVDA's Browse Mode settings.
+Native Selection Mode can also be [turned on automatically](#NativeSelectionModeSetting) in supporting documents via NVDA's Browse Mode settings.
 
 <!-- KC:beginInclude -->
 
@@ -2684,8 +2684,6 @@ While the automatic scroll option is enabled, you can still use the scroll back 
 
 Automatic scrolling will be disabled if a routing key is pressed, if a message is presented in braille, if a new object is displayed, when entering a secure screen, when the session is locked, or when the end of the window is reached.
 
-Commands can be assigned to toggle the automatic scroll option, and to increase or decrease the scroll rate, from the "Braille" section of the [Input Gestures dialog](#InputGestures).
-
 ##### Text wrap {#BrailleSettingsWordWrap}
 
 This combo box allows you to configure how NVDA handles text that is too long to fit on the braille display.
@@ -3075,7 +3073,9 @@ When enabled, the magnified area will automatically move to follow the mouse poi
 ##### Follow system focus {#MagnifierFollowSystemFocus}
 
 This checkbox controls whether the magnifier should follow the system focus.
-When enabled, the magnified area will automatically move to follow the system focus, which can be helpful for users who navigate primarily using the keyboard and want the magnifier to track their navigation.
+When enabled, the magnified area will automatically move to follow the system focus and the system text cursor, which can be helpful for users who navigate primarily using the keyboard and want the magnifier to track their navigation.
+It also moves to follow alternative cursors replacing the system cursor in specific situations such as browse mode cursor in browse mode or current subpart when navigating math content.
+Math navigation trackinng is only supported on the web.
 
 | . {.hideHeaderRow} |.|
 |---|---|
@@ -3295,7 +3295,7 @@ If this is unchecked, you need to double-tap on the key of the touch keyboard to
 ##### Enable edge gestures {#TouchEdgeGestures}
 
 This checkbox enables edge gesture support.
-When enabled, gestures that begin within 15 mm of any screen edge are treated as distinct gestures and can be bound independently in the [Input Gestures dialog](#InputGestures).
+When enabled, gestures that start from any screen edge are treated as distinct gestures and can be bound independently in the [Input Gestures dialog](#InputGestures).
 For example, a flick right that starts from the left edge of the screen can be bound to a different command from a flick right performed in the centre of the screen.
 If edge gestures are disabled after bindings have been set, those bindings will remain but will never be triggered.
 Note: Windows or the taskbar may intercept gestures on certain edges before they reach NVDA.
@@ -3545,12 +3545,11 @@ If the combo box interferes with your input method, such as with some IMEs, you 
 | Options | Default (Enabled), Disabled, Enabled |
 | Default | Enabled |
 
-##### Native selection mode {#NativeSelectionModeSetting}
+##### Native selection mode on page load {#NativeSelectionModeSetting}
 
-Disabled by default, this option determines whether [Native Selection Mode](#NativeSelectionMode) is automatically turned on in Browse Mode documents which support it.
+Disabled by default, this option determines whether [Native Selection Mode](#NativeSelectionMode) is automatically turned on in Browse Mode documents which support it when loaded.
 This setting does not affect Microsoft Word and Outlook, where Native Selection Mode is always used.
 When disabled, you can still turn on native selection mode manually per document with `NVDA+shift+f10`.
-Changing this option takes effect for newly loaded documents.
 
 | . {.hideHeaderRow} |.|
 |---|---|
@@ -4323,16 +4322,6 @@ This feature is available and enabled by default on Windows 10 versions 1607 and
 Warning: with this option enabled, typed characters that do not appear onscreen, such as passwords, will not be suppressed.
 In untrusted environments, you may temporarily disable [speak typed characters](#KeyboardSettingsSpeakTypedCharacters) and [speak typed words](#KeyboardSettingsSpeakTypedWords) when entering passwords.
 
-##### Beep for skipped lines {#BeepForSkippedLines}
-
-This setting controls whether NVDA plays a short beep when too many new lines arrive before they can all be reported.
-The beep indicates that some lines were skipped, and becomes slightly longer as more lines are skipped.
-
-| . {.hideHeaderRow} |.|
-|---|---|
-| Options | Disabled, Enabled |
-| Default | Enabled |
-
 ##### Diff algorithm {#DiffAlgo}
 
 This setting controls how NVDA determines the new text to speak in terminals.
@@ -4592,7 +4581,8 @@ For example, you may wish to have reporting of indentation enabled while you are
 NVDA allows you to do this using configuration profiles.
 
 A configuration profile contains only those settings which are changed while the profile is being edited.
-Most settings can be changed in configuration profiles except for those in the General category of the [NVDA Settings](#NVDASettings) dialog, which apply to the entirety of NVDA.
+Most settings can be changed in configuration profiles.
+Settings in the following categories of [NVDA Settings](#NVDASettings) dialog apply to the entirety of NVDA: General, Privacy and Security, Magnifier, Remote Access, Math, and Add-on Store.
 
 Configuration profiles can be manually activated either from a dialog or using custom added gestures.
 They can also be activated automatically due to triggers such as switching to a particular application.
@@ -6597,8 +6587,8 @@ Following are the command line options for NVDA:
 |`-m` |`--minimal` |No sounds, no interface, no start message, etc.|
 |`-s` |`--secure` |Starts NVDA in [Secure Mode](#SecureMode)|
 |`-d` |`--disable-addons` |Add-ons will have no effect|
-|None |`--debug-logging` |Enable debug level logging just for this run. This setting will override any other log level ( `--loglevel`, `-l`) argument given, including no logging option.|
-|None |`--no-logging` |Disable logging altogether while using NVDA. This setting can be overridden if a log level (`--loglevel`, `-l`) is specified from command line or if debug logging is turned on.|
+|None |`--debug-logging` |Enable debug level logging just for this run. This setting will override any other log level ( `--log-level`, `-l`) argument given, including no logging option.|
+|None |`--no-logging` |Disable logging altogether while using NVDA. This setting can be overridden if a log level (`--log-level`, `-l`) is specified from command line or if debug logging is turned on.|
 |None |`--no-sr-flag` |Don't change the global system screen reader flag|
 |None |`--install` |Installs NVDA (starting the newly installed copy)|
 |None |`--install-silent` |Silently installs NVDA (does not start the newly installed copy)|
